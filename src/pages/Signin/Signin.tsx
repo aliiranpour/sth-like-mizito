@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../../styles/logandsign.scss'
 import { Button, Col, Container, Form, Row } from 'react-bootstrap'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { NavLink } from 'react-router-dom'
+import { signin } from '../../store/store'
+import { useDispatch } from 'react-redux/es/exports';
+import { useNavigate } from 'react-router-dom'
 
 type signinInputs={
   phonenumber: number
@@ -12,15 +15,57 @@ type signinInputs={
 }
 
 const Signin = () => {
+  
+  const dispath = useDispatch();
+  const navigate = useNavigate();
+
+  const[ email, setEmail ] = useState<string>("") ;
+  const[ phonenumber, setPhonenumber ] = useState<number>();
+  const[ password, setPassword ] = useState<string>("");
+  const[ repassword, setRepassword ] = useState<string>("");
+  const[ passErrorMsg, setPassErrorMsg ] = useState<string>("");
+  const[ id, setId ] = useState<number>(1000);
+  const[ emailErrorMsg, setEmailErrorMsg] = useState<string>("")
+  const[ phoneErrorMsg, setPhoneErrorMsg] = useState<string>("")
+  const[ usersList, setUsersList ] = useState<any[]>([])
+
+  // console.log(JSON.stringify(localStorage.getItem))
 
   const{
     register,
     handleSubmit, 
-    watch,
     formState: {errors},
   } = useForm<signinInputs>()
 
-  const onSubmit : SubmitHandler<signinInputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<signinInputs> = () => {
+    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
+    const existingEmail = storedUsers.find((user: any) => user.email === email);
+    const existingPhone = storedUsers.find((user: any) => user.phonenumber === phonenumber);
+
+    if (existingEmail) {
+      setEmailErrorMsg('این ایمیل قبلاً ثبت شده است');
+    } else setEmailErrorMsg('');
+    if (existingPhone) {
+      setPhoneErrorMsg('این شماره تلفن قبلاً ثبت شده است');
+    } else setPhoneErrorMsg('');
+    if (!(password === repassword)) {
+      setPassErrorMsg('رمز عبور و تکرار رمز عبور یکسان نیست');
+    }else setPassErrorMsg('');
+
+    if(!existingEmail && !existingPhone && password===repassword){
+      setId(id + 1);
+      const newUser = {
+        id: id,
+        email,
+        phonenumber,
+        password,
+      };
+      const updatedUsers = [...storedUsers, newUser];
+      localStorage.setItem('users', JSON.stringify(updatedUsers));
+      navigate('/home')
+    }
+  };
+
 
   return (
     <Container fluid className='inbackground'>
@@ -38,24 +83,32 @@ const Signin = () => {
               <Col>
                 <Row className='w-75 mt-2 m-auto'>
                   <label htmlFor='signinphonenumber' className=' mb-3'>تلفن همراه:</label>
-                  <input defaultValue="" {...register("phonenumber", {required: true})} id='signinphonenumber'  />
+                  <input defaultValue="" {...register("phonenumber", {required: true}) } maxLength={10} type='tel' id='signinphonenumber' onChange={ e => setPhonenumber(parseInt(e.target.value))}/>
                 </Row>
                 <Row className='w-75 mt-2 m-auto'>
                   <label htmlFor='signinemail' className=' mb-3'>ایمیل</label>
-                  <input defaultValue="" {...register("email", {required: true})} id='signinuseemail'  />
+                  <input defaultValue="" {...register("email", {required: true})} id='signinuseemail' type='email' onChange={ e => setEmail(e.target.value)} />
                 </Row>
                 <Row className='w-75 my-2 mx-auto'>
                   <label htmlFor='signinpassword' className='mb-3'>رمز ورود:</label>
-                  <input defaultValue="" {...register("password", {required:true})} type='password' id='signinpassword' />
+                  <input defaultValue="" {...register("password", {required:true})} type='password' id='signinpassword' onChange={e => setPassword(e.target.value)} />
                 </Row>
                 <Row className='w-75 my-2 mx-auto'>
                   <label htmlFor='signinrepassword' className='mb-3'>رمز ورود مجدد:</label>
-                  <input defaultValue="" {...register("repassword", {required:true})} type='password' id='signinrepassword'  />
+                  <input defaultValue="" {...register("repassword", {required:true})} type='password' id='signinrepassword' onChange={e => setRepassword(e.target.value)} />
+                </Row>
+                <Row>
+                  <p>{phoneErrorMsg}</p>
+                  <p>{emailErrorMsg}</p>
+                  <p>{passErrorMsg}</p>
                 </Row>
                 <Row className=' d-lg-flex d-sm-block mb-3 w-75 mt-5 m-auto pb-5'>
                   <Col className=' w-100 h-100 justify-content-start mb-2 ms-5'>
-                    <Button variant='primary' className='w-100 h-100 border-black'>
-                      <NavLink to='/signin' className='text-light text-decoration-none w-100'>ثبت نام</NavLink>
+                    <Button variant='primary' className='w-100 h-100 border-black p-0'>
+                      <input type='submit' value='ثبت نام' className=' bg-primary text-light text-decoration-none w-100 border-0' />
+                      {/* <NavLink to='/signin' className='text-light text-decoration-none w-100'>
+                        ثبت نام
+                      </NavLink> */}
                     </Button>
                   </Col>
                 </Row>
@@ -70,5 +123,5 @@ const Signin = () => {
   )
 }
 
-
 export default Signin
+

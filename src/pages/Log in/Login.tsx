@@ -24,14 +24,14 @@ const Login = () => {
     <Container fluid className='inbackground'>
       <Row className='topcirclebg m-0 d-sm-none d-lg-block'></Row>
       <Row className=' d-flex justify-content-center w-50 h-50 m-auto align-items-center border-dark'>
-        <div className='formpart bg-light rounded-5 mt-5'>
-        <Col className=' my-3 p-2 border-black border-2 border-dark'>
+        <div className='formpart bg-light rounded-5 my-5'>
+        <Col className=' my-3 p-2 border-black border-2 border-dark mb-2'>
           <Row className=' border-bottom border-black border-2 mx-3 pb-3'>
             <h1>
               ورود
             </h1>
           </Row>
-          <Row className=''>
+          <Row className='mb-5'>
             <Form onSubmit={handleSubmit(onSubmit)}>
               <Col>
                 <Row className='w-75 mt-5 m-auto'>
@@ -44,9 +44,11 @@ const Login = () => {
                 </Row>
                 <Row className=' d-lg-flex d-sm-block mb-3 w-75 mt-5 m-auto pb-5'>
                   <Col className=' w-100 h-100 justify-content-start mb-2 ms-5'>
+                      <NavLink to='/signin' className='text-light text-decoration-none w-100'>
                     <Button variant='primary' className='w-100 h-100 border-black'>
-                      <NavLink to='/signin' className='text-light text-decoration-none w-100'>ثبت نام</NavLink>
+                        ثبت نام
                     </Button>
+                      </NavLink>
                   </Col>
                   <Col className='w-100 h-100 justify-content-end'>
                     <input type='submit' value='ورود' className='signbtn rounded-3 w-100 ' id='log-btn'/>

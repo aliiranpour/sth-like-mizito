@@ -31,7 +31,7 @@ const Sidebar = () => {
             </div>
             <Row className='my-3 me-1 justify-content-start w-50'>
               <Button variant='primary'>
-                <IoMdPersonAdd size={25} className='mx-2' />    
+                <IoMdPersonAdd size={20} className='mx-2' />    
                 <span className='fs-6 d-none d-xl-inline'>افزودن همکار</span>
               </Button>   
             </Row>
