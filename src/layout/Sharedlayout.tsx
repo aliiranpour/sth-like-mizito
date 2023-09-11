@@ -3,6 +3,7 @@ import Sidebar from '../components/Navbar/Navbar';
 import { Outlet } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import Header from '../components/Header/Header';
+import '../styles/sharedlayout.scss'
 
 const Sharedlayout = () => {
   return (
@@ -11,10 +12,10 @@ const Sharedlayout = () => {
         <Header />
       </Row>
       <Row>
-        <Col xs={3} className='p-0 m-0'>
+        <Col xs={3} className='p-0 m-0 ms-5'>
           <Sidebar />
         </Col>
-        <Col xs={9} className='m-0 p-0 position-relative'>
+        <Col xs={6} className='position-relative outlet-part'>
           <Outlet />
         </Col>
       </Row>

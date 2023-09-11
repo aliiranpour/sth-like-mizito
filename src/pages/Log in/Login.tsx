@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../../styles/logandsign.scss'
 import { Button, Col, Container, Form, Row } from 'react-bootstrap'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Navigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 type loginInputs={
   userName: string | number
@@ -11,14 +12,26 @@ type loginInputs={
 
 const Login = () => {
 
+  const navigate = useNavigate();
+  const [ username, setUsername ] = useState<string>('');
+  const [ password, setPassword ] = useState<string>('');
+  const [ errorMsg, setErrorMsg ] = useState<string>('');
+ 
   const{
     register,
     handleSubmit, 
-    watch,
     formState: {errors},
   } = useForm<loginInputs>()
 
-  const onSubmit : SubmitHandler<loginInputs> = (data) => console.log(data);
+  const onSubmit : SubmitHandler<loginInputs> = () =>{
+    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
+    
+    storedUsers.forEach((data: any) => {
+      if((username === (data.phonenumber).toString() || username === data.email) && password === data.password){
+        navigate('/home')
+      }
+    });
+  };
 
   return (
     <Container fluid className='inbackground'>
@@ -36,18 +49,18 @@ const Login = () => {
               <Col>
                 <Row className='w-75 mt-5 m-auto'>
                   <label htmlFor='loginusername' className=' mb-3'>نام کاربری:</label>
-                  <input defaultValue="" {...register("userName", {required: true})} id='loginusername'  />
+                  <input defaultValue="" {...register("userName", {required: true})} id='loginusername' onChange={(e) => setUsername(e.target.value)}  />
                 </Row>
                 <Row className='w-75 my-4 mx-auto'>
                   <label htmlFor='loginpassword' className='mb-3'>رمز ورود:</label>
-                  <input defaultValue="" {...register("password", {required:true})} type='password'  />
+                  <input defaultValue="" {...register("password", {required:true})} type='password' onChange={(e) => setPassword(e.target.value)} />
                 </Row>
                 <Row className=' d-lg-flex d-sm-block mb-3 w-75 mt-5 m-auto pb-5'>
                   <Col className=' w-100 h-100 justify-content-start mb-2 ms-5'>
                       <NavLink to='/signin' className='text-light text-decoration-none w-100'>
-                    <Button variant='primary' className='w-100 h-100 border-black'>
-                        ثبت نام
-                    </Button>
+                        <Button variant='primary' className='w-100 h-100 border-black'>
+                          ثبت نام
+                        </Button>
                       </NavLink>
                   </Col>
                   <Col className='w-100 h-100 justify-content-end'>

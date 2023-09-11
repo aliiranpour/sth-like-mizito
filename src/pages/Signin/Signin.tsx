@@ -27,7 +27,7 @@ const Signin = () => {
   const[ id, setId ] = useState<number>(1000);
   const[ emailErrorMsg, setEmailErrorMsg] = useState<string>("")
   const[ phoneErrorMsg, setPhoneErrorMsg] = useState<string>("")
-  const[ usersList, setUsersList ] = useState<any[]>([])
+  // const[ usersList, setUsersList ] = useState<any[]>([])
 
   // console.log(JSON.stringify(localStorage.getItem))
 
@@ -53,7 +53,6 @@ const Signin = () => {
     }else setPassErrorMsg('');
 
     if(!existingEmail && !existingPhone && password===repassword){
-      setId(id + 1);
       const newUser = {
         id: id,
         email,
@@ -61,7 +60,10 @@ const Signin = () => {
         password,
       };
       const updatedUsers = [...storedUsers, newUser];
+      console.log(updatedUsers)
       localStorage.setItem('users', JSON.stringify(updatedUsers));
+      setId(id + 1);
+      console.log(id)
       navigate('/home')
     }
   };
@@ -106,9 +108,6 @@ const Signin = () => {
                   <Col className=' w-100 h-100 justify-content-start mb-2 ms-5'>
                     <Button variant='primary' className='w-100 h-100 border-black p-0'>
                       <input type='submit' value='ثبت نام' className=' bg-primary text-light text-decoration-none w-100 border-0' />
-                      {/* <NavLink to='/signin' className='text-light text-decoration-none w-100'>
-                        ثبت نام
-                      </NavLink> */}
                     </Button>
                   </Col>
                 </Row>
