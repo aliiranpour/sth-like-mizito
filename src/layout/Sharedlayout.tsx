@@ -11,11 +11,11 @@ const Sharedlayout = () => {
       <Row className='m-0 p-0'>
         <Header />
       </Row>
-      <Row>
+      <Row className=' d-flex'>
         <Col xs={3} className='p-0 m-0 ms-5'>
           <Sidebar />
         </Col>
-        <Col xs={6} className='position-relative outlet-part'>
+        <Col xs={7} className='position-relative me-3 outlet-part'>
           <Outlet />
         </Col>
       </Row>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {  useState } from 'react'
 import '../../styles/logandsign.scss'
 import { Button, Col, Container, Form, Row } from 'react-bootstrap'
 import { useForm, SubmitHandler } from 'react-hook-form'

@@ -14,13 +14,30 @@ const userSlice = createSlice({
     }
 })
 
+const addTaskModalSlice = createSlice({
+    name: "addTaskModalStatus",
+    initialState: {show : false},
+    reducers: {
+        showAddTaskModal: (state) =>{
+            state.show = true
+        },
+        hideAddTaskModal: (state) =>{
+            state.show = false
+        }
+    }
+})
+
 console.log(userSlice)
 console.log(JSON.stringify(localStorage.getItem))
 
-export const { signin } = userSlice.actions
+export const { signin } = userSlice.actions;
+export const { showAddTaskModal, hideAddTaskModal } = addTaskModalSlice.actions;
 
 export const Store = configureStore({
     reducer: {
-        user: userSlice.reducer
+        user: userSlice.reducer,
+        addTaskModalStatus: addTaskModalSlice.reducer 
     }
 })
+
+export type RootState = ReturnType<typeof Store.getState>;
