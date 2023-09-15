@@ -5,9 +5,17 @@ import { Button, Col, Image, Nav, NavItem, Row } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import '../../styles/navbar.scss';
 import { IoMdPersonAdd } from 'react-icons/io';
-
+import { useDispatch } from 'react-redux';
+import { showAddteammatemodal } from '../../store/store';
 
 const Sidebar = () => {
+
+  const dispatch = useDispatch();
+
+  const addTeamMate = () =>{
+    dispatch(showAddteammatemodal())  
+  }
+
   return (
     <Navbar expand="lg" className=''>
       <Container>
@@ -30,7 +38,7 @@ const Sidebar = () => {
               </Row>
             </div>
             <Row className='my-3 me-1 justify-content-start w-50'>
-              <Button variant='primary'>
+              <Button variant='primary' onClick={addTeamMate}>
                 <IoMdPersonAdd size={20} className='mx-2' />    
                 <span className='fs-6 d-none d-xl-inline'>افزودن همکار</span>
               </Button>   

@@ -4,6 +4,7 @@ import {BsPlus} from 'react-icons/bs'
 import { showAddTaskModal } from '../../store/store'
 import { useDispatch } from 'react-redux'
 import Addtaskmodal from '../../modals/addtaskmodal/Addtaskmodal'
+import Addteammatemodal from '../../modals/addteammatemodal/Addteammatemodal'
 
 const Tasks = () => {
 
@@ -23,12 +24,15 @@ const handleShowAddTaskModal = () => {
           <Col className=' align-self-center justify-content-end' xs={3}>
             <Button className=' w-100' onClick={handleShowAddTaskModal}>
               <BsPlus size={32} />
-              <span className=' d-sm-none'>ایجاد وظیفه</span>
+              <span className=' d-sm-none d-lg-inline'>ایجاد وظیفه</span>
             </Button>
           </Col>
         </Row>
         <Row>
           <Addtaskmodal />
+        </Row>
+        <Row>
+          <Addteammatemodal />
         </Row>
       </Col>
     </Container>

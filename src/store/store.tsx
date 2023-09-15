@@ -27,16 +27,31 @@ const addTaskModalSlice = createSlice({
     }
 })
 
+const AddteammatemodalSlice = createSlice({
+    name: "AddteammatemodalStatus",
+    initialState: {show : false},
+    reducers: {
+        showAddteammatemodal: (state) =>{
+            state.show = true
+        },
+        hideAddteammatemodal: (state) =>{
+            state.show = false
+        }
+    }
+})
+
 console.log(userSlice)
 console.log(JSON.stringify(localStorage.getItem))
 
 export const { signin } = userSlice.actions;
 export const { showAddTaskModal, hideAddTaskModal } = addTaskModalSlice.actions;
+export const { showAddteammatemodal, hideAddteammatemodal } = AddteammatemodalSlice.actions;
 
 export const Store = configureStore({
     reducer: {
         user: userSlice.reducer,
-        addTaskModalStatus: addTaskModalSlice.reducer 
+        addTaskModalStatus: addTaskModalSlice.reducer,
+        AddteammatemodalStatus: AddteammatemodalSlice.reducer
     }
 })
 
