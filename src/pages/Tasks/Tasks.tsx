@@ -10,6 +10,7 @@ const Tasks = () => {
 
 const dispatch = useDispatch();
 
+
 const handleShowAddTaskModal = () => {
   dispatch(showAddTaskModal());
 };
@@ -22,10 +23,12 @@ const handleShowAddTaskModal = () => {
             <h1>وظایف</h1>
           </Col>
           <Col className=' align-self-center justify-content-end' xs={3}>
-            <Button className=' w-100' onClick={handleShowAddTaskModal}>
-              <BsPlus size={32} />
-              <span className=' d-sm-none d-lg-inline'>ایجاد وظیفه</span>
-            </Button>
+            <Row>
+              <Button className=' w-100' onClick={handleShowAddTaskModal}>
+                <BsPlus size={32} />
+                <span className=' d-sm-none d-lg-inline'>ایجاد وظیفه</span>
+              </Button>
+            </Row>      
           </Col>
         </Row>
         <Row>

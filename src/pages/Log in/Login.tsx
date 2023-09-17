@@ -4,6 +4,9 @@ import { Button, Col, Container, Form, Row } from 'react-bootstrap'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { NavLink, Navigate } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { login } from '../../store/store'
+
 
 type loginInputs={
   userName: string | number
@@ -12,10 +15,13 @@ type loginInputs={
 
 const Login = () => {
 
+  const dispatch = useDispatch();
+
+
   const navigate = useNavigate();
   const [ username, setUsername ] = useState<string>('');
   const [ password, setPassword ] = useState<string>('');
-  const [ errorMsg, setErrorMsg ] = useState<string>('');
+  const[ loginError, setLoginError ] = useState<string>("");
  
   const{
     register,
@@ -29,7 +35,11 @@ const Login = () => {
     storedUsers.forEach((data: any) => {
       if((username === (data.phonenumber).toString() || username === data.email) && password === data.password){
         navigate('/home')
+        setLoginError("");
+        console.log(data)
+        dispatch(login({id: data.id , email: data.email, userPhonenumber: data.phonenumber}))
       }
+      else setLoginError("نام کاربری یا رمز عبور اشتباه است")
     });
   };
 
@@ -55,6 +65,7 @@ const Login = () => {
                   <label htmlFor='loginpassword' className='mb-3'>رمز ورود:</label>
                   <input defaultValue="" {...register("password", {required:true})} type='password' onChange={(e) => setPassword(e.target.value)} />
                 </Row>
+                    <p>{loginError}</p>
                 <Row className=' d-lg-flex d-sm-block mb-3 w-75 mt-5 m-auto pb-5'>
                   <Col className=' w-100 h-100 justify-content-start mb-2 ms-5'>
                       <NavLink to='/signin' className='text-light text-decoration-none w-100'>

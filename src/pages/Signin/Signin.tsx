@@ -2,9 +2,6 @@ import React, {  useState } from 'react'
 import '../../styles/logandsign.scss'
 import { Button, Col, Container, Form, Row } from 'react-bootstrap'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { NavLink } from 'react-router-dom'
-import { signin } from '../../store/store'
-import { useDispatch } from 'react-redux/es/exports';
 import { useNavigate } from 'react-router-dom'
 
 type signinInputs={
@@ -16,7 +13,6 @@ type signinInputs={
 
 const Signin = () => {
   
-  const dispath = useDispatch();
   const navigate = useNavigate();
 
   const[ email, setEmail ] = useState<string>("") ;
@@ -27,9 +23,6 @@ const Signin = () => {
   const[ id, setId ] = useState<number>(1000);
   const[ emailErrorMsg, setEmailErrorMsg] = useState<string>("")
   const[ phoneErrorMsg, setPhoneErrorMsg] = useState<string>("")
-  // const[ usersList, setUsersList ] = useState<any[]>([])
-
-  // console.log(JSON.stringify(localStorage.getItem))
 
   const{
     register,
