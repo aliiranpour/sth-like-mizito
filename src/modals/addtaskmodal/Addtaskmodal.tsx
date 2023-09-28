@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Col, Container, Modal, Row } from 'react-bootstrap'
 import { Form, SubmitHandler, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,13 +19,17 @@ const Addtaskmodal = () => {
 
     const dispatch = useDispatch();
     const handleShowAddTaskModal = useSelector((state: RootState) => state.addTaskModalStatus.show )
+    
+
 
     const {
         register,
         handleSubmit,
         formState: { errors },
       } = useForm<addTaskInputs>()
-      const onSubmit: SubmitHandler<addTaskInputs> = (data) => console.log(data)
+      const onSubmit: SubmitHandler<addTaskInputs> = (data) =>{
+        
+      }
     
     console.log(handleShowAddTaskModal)
 
@@ -35,6 +39,13 @@ const Addtaskmodal = () => {
 
     const defaultDate = new Date();
     const formattedDefaultDate = `${defaultDate.getFullYear()}-${String(defaultDate.getMonth() + 1).padStart(2, '0')}-${String(defaultDate.getDate()).padStart(2, '0')}`;
+
+    const [taskTitle, setTaskTitle] = useState<string>('');
+    const [taskDesc, setTaskDesc] = useState<string>('');
+    const [taskGroup, setTaskGroup] = useState<{ [key: string]: string }>({});
+    const [taskDeadLine, setDeadLine] = useState<string>(formattedDefaultDate);
+    const [taskWorkers, setTaskWorkers] = useState<string[]>([]);
+ 
 
       return (
         <Container >
@@ -50,11 +61,11 @@ const Addtaskmodal = () => {
                 <form onSubmit={handleSubmit(onSubmit)} className='w-75 m-auto justify-content-center mt-3 mb-5 addtask-form'>
                     <Row>
                         <label htmlFor='tasktitle' className='my-2'>عنوان وظیفه: </label>
-                        <input {...register("task_title", { required: true })} id='tasktitle' />
+                        <input {...register("task_title", { required: true })} id='tasktitle' onChange={e => setTaskTitle(e.target.value)} />
                     </Row>
                     <Row>
                         <label htmlFor='task_description' className='my-2'>توضیحات:</label>
-                        <textarea {...register("task_descrip")} id='task_dexciption' />
+                        <textarea {...register("task_descrip")} id='task_dexciption' onChange={e => setTaskDesc(e.target.value)}/>
                     </Row>
                     <Row>
                         <Col className='ms-5'>
@@ -62,7 +73,7 @@ const Addtaskmodal = () => {
                                 <label htmlFor='task_type'>دسته:</label>
                             </Row>
                             <Row>
-                                <input {...register("task_type", { required: true })} type='text' id='task_type' />
+                                <input {...register("task_type", { required: true })} type='text' id='task_type' onChange={e => setTaskGroup({...taskGroup, [e.target.name] : e.target.value})} />
                             </Row>
                         </Col>
                         <Col className='me-5'>
@@ -70,7 +81,7 @@ const Addtaskmodal = () => {
                                 <label htmlFor='task_dead_line' className=' my-2'>مهلت انجام:</label>
                             </Row>
                             <Row>
-                                <input id='task_dead_line' defaultValue={formattedDefaultDate} {...register("task_dead_line", {required: true})} type='date' />
+                                <input id='task_dead_line' defaultValue={formattedDefaultDate} {...register("task_dead_line", {required: true})} type='date' onChange={e => setDeadLine(e.target.value)}/>
                             </Row>
                         </Col>
                         <Col className='mt-3 '>

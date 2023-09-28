@@ -3,7 +3,7 @@ import { Container, Modal, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState, hideAddteammatemodal, teamMatesList } from '../../store/store'
 import { GrFormClose } from 'react-icons/gr'
-import { Form, SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { useState } from 'react';
 
 type addTeamMateInputs={
@@ -21,10 +21,12 @@ const Addteammatemodal = () => {
         handleSubmit,
         formState: { errors },
       } = useForm<addTeamMateInputs>()
-      const onSubmit: SubmitHandler<addTeamMateInputs> = (data) => console.log(data)
-
+ 
     const showTeamMateModal = useSelector((state: RootState) => state.AddteammatemodalStatus.show)
     const dispatch = useDispatch();
+
+    const onSubmit: SubmitHandler<addTeamMateInputs> = (data) => console.log(data)
+
 
     const hideTeamMateModal = () =>{
         dispatch(hideAddteammatemodal());

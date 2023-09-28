@@ -1,6 +1,7 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 import exp from "constants";
 import { useState } from "react";
+import AddGroup from '../modals/addgroup/addGroupModal';
 
 
 const userSlice = createSlice({
@@ -42,6 +43,19 @@ const AddteammatemodalSlice = createSlice({
     }
 })
 
+const AddGroupSlice = createSlice({
+    name: "AddGroup",
+    initialState: {show : false},
+    reducers: {
+        showAddgroup: (state) =>{
+            state.show = true
+        },
+        hideAddgroup: (state) =>{
+            state.show = false
+        }
+    }
+})
+
 const addTeammateListSlice = createSlice({
     name: "teammateslist",
     initialState: { id: "", name: "", phonenumber: "" },
@@ -69,20 +83,54 @@ const addTeammateListSlice = createSlice({
     }
 })
 
-console.log(userSlice)
-console.log(JSON.stringify(localStorage.getItem))
+const addTaskSlice = createSlice({
+    name: "addTask",
+    initialState:{ taskId: "", ownId: "" , title: "", description: "", group: "", deadLine: "", workers: [] },
+    reducers: {
+        addTask: (state, action) =>{
+
+            const tasksList = JSON.parse(localStorage.getItem('tasksList') || '[]')
+
+            state.taskId = action.payload.id;
+            state.ownId = action.payload.ownId
+            state.title = action.payload.title;
+            state.group = action.payload.group;
+            state.deadLine = action.payload.deadLine;
+            state.workers = action.payload.workers;
+            state.description = action.payload.desc;
+            
+            const newTask = {
+                taskId: state.taskId,
+                ownId: state.ownId,
+                title: state.title,
+                group: state.group,
+                deadLine: state.deadLine,
+                workers: state.workers,
+                desc: state.description
+            }
+
+            const updateTaskList = [...tasksList , newTask];
+            localStorage.setItem('tasksList' , JSON.stringify(updateTaskList))
+
+        }
+    }
+})
+
 
 export const { login } = userSlice.actions;
 export const { showAddTaskModal, hideAddTaskModal } = addTaskModalSlice.actions;
 export const { showAddteammatemodal, hideAddteammatemodal } = AddteammatemodalSlice.actions;
 export const { teamMatesList } = addTeammateListSlice.actions;
+export const { addTask } = addTaskSlice.actions;
+export const { showAddgroup, hideAddgroup } = AddGroupSlice.actions;
 
 export const Store = configureStore({
     reducer: {
         user: userSlice.reducer,
         addTaskModalStatus: addTaskModalSlice.reducer,
         AddteammatemodalStatus: AddteammatemodalSlice.reducer,
-        teammateslist: addTeammateListSlice.reducer
+        teammateslist: addTeammateListSlice.reducer,
+        AddGroup: AddGroupSlice.reducer
     }
 })
 

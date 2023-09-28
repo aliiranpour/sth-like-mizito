@@ -1,14 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Row } from 'react-bootstrap'
 import {BsPlus} from 'react-icons/bs'
 import { showAddTaskModal } from '../../store/store'
 import { useDispatch } from 'react-redux'
 import Addtaskmodal from '../../modals/addtaskmodal/Addtaskmodal'
 import Addteammatemodal from '../../modals/addteammatemodal/Addteammatemodal'
+import { addTask } from '../../store/store'
 
 const Tasks = () => {
 
 const dispatch = useDispatch();
+
+const [tasksList , setTasksList] = useState<string[]>([])
+
+useEffect(() => {
+  const storedTask = JSON.parse(localStorage.getItem('taskslist') || '[]')
+  setTasksList(storedTask);
+}, [])
 
 
 const handleShowAddTaskModal = () => {
@@ -28,9 +36,12 @@ const handleShowAddTaskModal = () => {
                 <BsPlus size={32} />
                 <span className=' d-sm-none d-lg-inline'>ایجاد وظیفه</span>
               </Button>
-            </Row>      
+            </Row>
           </Col>
         </Row>
+          <Row>
+            {}
+          </Row>      
         <Row>
           <Addtaskmodal />
         </Row>
